@@ -1,0 +1,76 @@
+# Google Play
+plugin:
+  id: "hc-google-play-payment-plugin"
+  language: "go"
+  title: "Google Play"
+  icon: ""
+  description: "Google Play Billing and Real-time developer notifications for SaaS tenant plans."
+  capabilities:
+    - project.graphql
+    - project.rest
+    - console.settings
+  role: ""
+  enable: true
+  debug: false
+  version: "0.1.0"
+  author: "Apito"
+  repository_url: "https://github.com/apito-io/hc-google-play-payment-plugin"
+  branch: ""
+  binary_path: "hc-google-play-payment-plugin"
+  handshake_config:
+    protocol_version: 1
+    magic_cookie_key: "APITO_PLUGIN"
+    magic_cookie_value: "apito_plugin_magic_cookie_v1"
+  ui_config:
+    entry_path: ui.js
+    official: true
+    signed: true
+    publisher: Apito
+  contributions:
+    payment:
+      contract_version: 1
+      provider_id: google_play
+      label: Google Play
+      icon: wallet-cards
+      flows:
+        - subscription
+      capabilities:
+        - manage_url
+      operations:
+        initialize: playInitialize
+        verify: playVerify
+        webhook: playWebhook
+        cancel: playCancel
+    api:
+      scope: project
+      mutations:
+        - name: playInitialize
+          description: Google Play purchases start in the app
+        - name: playVerify
+          description: Verify a Google Play purchase token
+        - name: playWebhook
+          description: Handle a Google Play developer notification
+        - name: playCancel
+          description: Cancel or revoke a Google Play subscription
+      rest:
+        - method: GET
+          path: /config
+          description: Non-secret Google Play configuration flags
+          access: protected
+    ui:
+      ui_available: true
+      navigation:
+        - hidden: true
+          settings: true
+          label: Google Play
+  env_vars:
+    - key: "PLAY_ENABLED"
+      value: "true"
+    - key: "PLAY_PACKAGE_NAME"
+      value: ""
+    - key: "PLAY_SERVICE_ACCOUNT_JSON"
+      value: ""
+    - key: "PLAY_PUBSUB_TOPIC"
+      value: ""
+    - key: "PLAY_SKIP_REMOTE_VERIFY"
+      value: "false"
